@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/amqplib": "^0.10.5",
     "@types/compression": "^1.7.5",
     "@types/connect-busboy": "^1.0.3",
     "@types/cors": "^2.8.17",
@@ -18,6 +19,7 @@
     "@types/morgan": "^1.9.9",
     "@types/signale": "^1.4.7",
     "@types/uuid": "^10.0.0",
+    "amqplib": "^0.10.4",
     "compression": "^1.7.4",
     "connect-busboy": "^1.0.0",
     "cors": "^2.8.5",

@@ -3,6 +3,8 @@ import { GetRentalByIdUseCase } from "@src/application/use-cases/get-rental-by-i
 import { GetRentalsUseCase } from "@src/application/use-cases/get-rentals.use-case";
 import { UpdateRentalUseCase } from "@src/application/use-cases/update-rental.use-case";
 import { DeleteRentalUseCase } from "@src/application/use-cases/delete-rental.use-case";
+import { GetRentalsByLessorIdUseCase } from "@src/application/use-cases/get-rentals-by-lessor-id.use-case";
+import { GetRentalsByLesseIdUseCase } from "@src/application/use-cases/get-rentals-by-lesse-id.use-case";
 import { Request, Response } from "express";
 
 export class RentalController {
@@ -11,7 +13,9 @@ export class RentalController {
     private readonly getRentalByIdUseCase: GetRentalByIdUseCase,
     private readonly getRentalsUseCase: GetRentalsUseCase,
     private readonly updateRentalUseCase: UpdateRentalUseCase,
-    private readonly deleteRentalUseCase: DeleteRentalUseCase
+    private readonly deleteRentalUseCase: DeleteRentalUseCase,
+    private readonly getRentalsByLessorIdUseCase: GetRentalsByLessorIdUseCase,
+    private readonly getRentalsByLesseIdUseCase: GetRentalsByLesseIdUseCase
   ) { }
 
   async createRental(req: Request, res: Response) {
@@ -89,4 +93,36 @@ export class RentalController {
       res.status(500).json({ message: "Error deleting rental" });
     }
   }
+
+  async getRentalsByLessorId(req: Request, res: Response) {
+    try {
+      const lessor_id = req.params.id;
+
+      const rentals = await this.getRentalsByLessorIdUseCase.execute(lessor_id);
+
+      if (!rentals) {
+        return res.status(400).json({ message: "Rentals not found" });
+      }
+      return res.status(200).json({ message: "Rentals found!", data: rentals });
+    } catch (error) {
+      res.status(500).json({ message: "Error getting rentals" });
+    }
+  }
+
+  async getRentalsByLesseId(req: Request, res: Response) {
+    try {
+      const lesse_id = req.params.id;
+      const active = req.query.active === "true";
+
+      const rentals = await this.getRentalsByLesseIdUseCase.execute(lesse_id, active);
+
+      if (!rentals) {
+        return res.status(400).json({ message: "Rentals not found" });
+      }
+      return res.status(200).json({ message: "Rentals found!", data: rentals });
+    } catch (error) {
+      res.status(500).json({ message: "Error getting rentals" });
+    }
+  }
+  
 }

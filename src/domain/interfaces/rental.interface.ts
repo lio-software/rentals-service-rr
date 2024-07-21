@@ -6,4 +6,6 @@ export interface RentalInterface {
   getRentals(): Promise<RentalEntity[]>;
   updateRental(string: string, rental: any): Promise<RentalEntity | null>;
   deleteRental(id: string): Promise<boolean>;
+  getRentalsByLessorId(lessor_id: string): Promise<RentalEntity[]>;
+  getRentalsByLesseId(lesse_id: string, active?: boolean): Promise<RentalEntity[]>;
 }

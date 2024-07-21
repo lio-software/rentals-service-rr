@@ -8,6 +8,7 @@ import cors from 'cors';
 import busboy from 'connect-busboy';
 import compression from "compression";
 import { rentalRouter } from "./infrastructure/router/rental.router";
+import { declareOrderExchange } from "./infrastructure/rentalExchange";
 
 export const app = express();
 const logger = new Signale();
@@ -18,7 +19,7 @@ app.use(morgan('dev'));
 app.use(busboy());
 app.use(express.urlencoded({ extended: false }));
 app.use(compression());
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3004;
 const API_PREFIX = process.env.API_PREFIX || '/api/v1';
 
 app.options('*', cors())
@@ -27,6 +28,8 @@ app.use(cors())
 app.use(`${API_PREFIX}/rentals`, rentalRouter)
 
 async function startServer() {
+    await declareOrderExchange();
+
     await syncConnection();
     app.listen(PORT, () => {
         logger.success(`Server running on http://0.0.0.0:${PORT}${API_PREFIX}`);

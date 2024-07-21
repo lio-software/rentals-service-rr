@@ -8,3 +8,5 @@ rentalRouter.get('/:id', rentalController.getRentalById.bind(rentalController));
 rentalRouter.get('/', rentalController.getRentals.bind(rentalController));
 rentalRouter.put('/:id', rentalController.updateRental.bind(rentalController));
 rentalRouter.delete('/:id', rentalController.deleteRental.bind(rentalController));
+rentalRouter.get('/lessor/:id', rentalController.getRentalsByLessorId.bind(rentalController));
+rentalRouter.get('/lesse/:id', rentalController.getRentalsByLesseId.bind(rentalController));
