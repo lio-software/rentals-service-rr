@@ -6,6 +6,7 @@ import { DeleteRentalUseCase } from "@src/application/use-cases/delete-rental.us
 import { GetRentalsByLessorIdUseCase } from "@src/application/use-cases/get-rentals-by-lessor-id.use-case";
 import { GetRentalsByLesseIdUseCase } from "@src/application/use-cases/get-rentals-by-lesse-id.use-case";
 import { Request, Response } from "express";
+import { IsRentalActiveByVehicleIdUseCase } from "@src/application/use-cases/is-rental-active-by-vehicle-id.use-case";
 
 export class RentalController {
   constructor(
@@ -15,7 +16,8 @@ export class RentalController {
     private readonly updateRentalUseCase: UpdateRentalUseCase,
     private readonly deleteRentalUseCase: DeleteRentalUseCase,
     private readonly getRentalsByLessorIdUseCase: GetRentalsByLessorIdUseCase,
-    private readonly getRentalsByLesseIdUseCase: GetRentalsByLesseIdUseCase
+    private readonly getRentalsByLesseIdUseCase: GetRentalsByLesseIdUseCase,
+    private readonly isRentalActiveByVehicleIdUseCase: IsRentalActiveByVehicleIdUseCase
   ) { }
 
   async createRental(req: Request, res: Response) {
@@ -124,5 +126,19 @@ export class RentalController {
       res.status(500).json({ message: "Error getting rentals" });
     }
   }
-  
+
+  async isRentalActiveByVehicleId(req: Request, res: Response) {
+    try {
+      const vehicle_id = req.params.id;
+
+      console.log(vehicle_id);
+
+      const isActive = await this.isRentalActiveByVehicleIdUseCase.execute(vehicle_id);
+
+
+      return res.status(200).json({ message: "Rental found!", data: isActive });
+    } catch (error) {
+      res.status(500).json({ message: "Error getting rental" });
+    }
+  }
 }

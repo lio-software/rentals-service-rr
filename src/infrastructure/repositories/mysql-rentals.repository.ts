@@ -166,4 +166,20 @@ export class MysqlRentalRepository implements RentalInterface {
     }
   }
 
+  async isRentalActiveByVehicleId(vehicle_id: string): Promise<boolean> {
+    try {
+      const rental = await RentalModel.findOne({
+        where: {
+          vehicle_id,
+          status: {
+            [Op.ne]: 'FINISHED',
+          },
+        },
+      });
+
+      return !!rental;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

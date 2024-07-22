@@ -8,4 +8,5 @@ export interface RentalInterface {
   deleteRental(id: string): Promise<boolean>;
   getRentalsByLessorId(lessor_id: string): Promise<RentalEntity[]>;
   getRentalsByLesseId(lesse_id: string, active?: boolean): Promise<RentalEntity[]>;
+  isRentalActiveByVehicleId(vehicle_id: string): Promise<boolean>;
 }
